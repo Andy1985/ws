@@ -1,0 +1,2 @@
+Class-Path: . dom4j-1.6.1.jar poi-excelant-3.9-20121203.jar slf4j-api-1.4.3.jar log4j-1.2.16.jar poi-ooxml-3.9-20121203.jar slf4j-log4j12-1.4.3.jar xmlbeans-2.3.0.jar mina-core-1.1.7.jar  poi-ooxml-schemas-3.9-20121203.jar stax-api-1.0.1.jar poi-3.9-20121203.jar poi-scratchpad-3.9-20121203.jar pdfbox-app-1.8.2.jar java-unrar-0.3.jar ant.jar wordserver.jar
+Main-Class: WordServer
