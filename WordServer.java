@@ -8,7 +8,7 @@ import org.apache.mina.common.IoServiceConfig;
 
 public class WordServer
 {
-    private static final int PORT = 9999;
+    private static final int PORT = 9123;
 
     public static void main(String[] args) throws IOException
     {

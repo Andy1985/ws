@@ -76,6 +76,7 @@ public class WordServerHandler extends StreamIoHandler
 	        BufferedInputStream bin = new BufferedInputStream(new FileInputStream(
 	            new File(fileName)));
 	        int p = (bin.read() << 8) + bin.read();
+		bin.close();
 	        switch (p) 
 	        {
 	            case 0xefbb: charset = "UTF-8"; break;
@@ -86,6 +87,15 @@ public class WordServerHandler extends StreamIoHandler
 	    }
 	    catch(IOException e) {}
 	    return charset;
+	}
+
+	public static void deleteFile(String sPath)
+	{
+		File file = new File(sPath);
+		if (file.isFile() && file.exists())
+		{
+			file.delete();	
+		}
 	}
 
         public void run() 
@@ -320,7 +330,8 @@ public class WordServerHandler extends StreamIoHandler
 			            	        extractor.setIncludeSheetNames(false);
 			            	        repRarData = extractor.getText();
 			            	        inp.close();
-					        (new File(wfname + "-" + OP_EXCEL)).delete();
+
+						deleteFile(wfname + "-" + OP_EXCEL);
 			            	    }
 			            	    else if (file_to_check.endsWith(".xlsx"))
 			            	    {
@@ -341,7 +352,7 @@ public class WordServerHandler extends StreamIoHandler
 					        extractor.setIncludeCellComments(false);
 					        repRarData = extractor.getText();
 					        inp.close();
-						(new File(wfname + "-" + OP_EXCELX)).delete();
+						deleteFile(wfname + "-" + OP_EXCELX);
 			            	    }
 			            	    else if (file_to_check.endsWith(".doc"))
 			            	    {
@@ -357,7 +368,7 @@ public class WordServerHandler extends StreamIoHandler
 					        WordExtractor extractor = new WordExtractor(fin);
 					        repRarData = extractor.getText();
 					        fin.close();
-						(new File(wfname + "-" + OP_WORD)).delete();
+						deleteFile(wfname + "-" + OP_WORD);
 			            	    }
 			            	    else if (file_to_check.endsWith(".docx"))
 			            	    {
@@ -374,7 +385,7 @@ public class WordServerHandler extends StreamIoHandler
 					        extractor = new XWPFWordExtractor(opcPackage);
 					        repRarData = extractor.getText();
 					        opcPackage.close();
-			            	   	(new File(wfname + "-" + OP_WORDX)).delete(); 
+						deleteFile(wfname + "-" + OP_WORDX);
 			            	    }
 			            	    else if (file_to_check.endsWith(".pdf"))
 			            	    {
@@ -395,7 +406,7 @@ public class WordServerHandler extends StreamIoHandler
 					        repRarData = stripper.getText(document);
 					        document.close();
 					        inp.close();
-						(new File(wfname + "-" + OP_PDF)).delete();
+						deleteFile(wfname + "-" + OP_PDF);
 			            	    }
 					    else if (file_to_check.endsWith(".txt"))
 					    {
@@ -418,7 +429,7 @@ public class WordServerHandler extends StreamIoHandler
                                                 }                 
 						br.close();
 						repRarData = sb.toString();
-						(new File(wfname + "-txt")).delete();
+						deleteFile(wfname + "-txt");
 					    }
 			            	    else if (file_to_check.endsWith(".exe") || 
 						file_to_check.endsWith("scr"))
@@ -494,7 +505,7 @@ public class WordServerHandler extends StreamIoHandler
 			            	    extractor.setIncludeSheetNames(false);
 			            	    repZipData = extractor.getText();
 			            	    inp.close();
-					    (new File(wfname + "-" + OP_EXCEL)).delete();
+					    deleteFile(wfname + "-" + OP_EXCEL);
 			            	}
 			            	else if (file_to_check.endsWith(".xlsx"))
 			            	{
@@ -521,7 +532,7 @@ public class WordServerHandler extends StreamIoHandler
 					    extractor.setIncludeCellComments(false);
 					    repZipData = extractor.getText();
 					    inp.close();
-					    (new File(wfname + "-" + OP_EXCELX)).delete();
+					    deleteFile(wfname + "-" + OP_EXCELX);
 			            	}
 			            	else if (file_to_check.endsWith(".doc"))
 			            	{
@@ -543,7 +554,7 @@ public class WordServerHandler extends StreamIoHandler
 					    WordExtractor extractor = new WordExtractor(fin);
 					    repZipData = extractor.getText();
 					    fin.close();
-					    (new File(wfname + "-" + OP_WORD)).delete();
+					    deleteFile(wfname + "-" + OP_WORD);
 			            	}
 			            	else if (file_to_check.endsWith(".docx"))
 			            	{
@@ -566,7 +577,7 @@ public class WordServerHandler extends StreamIoHandler
 					    extractor = new XWPFWordExtractor(opcPackage);
 					    repZipData = extractor.getText();
 					    opcPackage.close();
-			            	    (new File(wfname + "-" + OP_WORDX)).delete(); 
+					    deleteFile(wfname + "-" + OP_WORDX);
 			            	}
 			            	else if (file_to_check.endsWith(".pdf"))
 			            	{
@@ -593,7 +604,7 @@ public class WordServerHandler extends StreamIoHandler
 					    repZipData = stripper.getText(document);
 					    document.close();
 					    inp.close();
-					    (new File(wfname + "-" + OP_PDF)).delete();
+					    deleteFile(wfname + "-" + OP_PDF);
 			            	}
 					else if (file_to_check.endsWith(".txt"))
 					{
@@ -623,7 +634,7 @@ public class WordServerHandler extends StreamIoHandler
 					    br.close();
 					    repZipData = sb.toString();
 
-					    (new File(wfname + "-txt")).delete();
+					    deleteFile(wfname + "-txt");
 					}
 			            	else if (file_to_check.endsWith(".exe") || 
 						file_to_check.endsWith("scr"))
@@ -643,6 +654,7 @@ public class WordServerHandler extends StreamIoHandler
 
                              out.write(repZipData.getBytes(CHARSET));
 
+			     zipFile.close();
 			   }
 			   catch (Exception ex) 
 			   {
@@ -652,7 +664,7 @@ public class WordServerHandler extends StreamIoHandler
                            System.out.println("ZipxExtractor end.");
 			}
 
-                        (new File(wfname)).delete();
+			deleteFile(wfname);
                     }
                 }
                 else 
