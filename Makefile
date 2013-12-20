@@ -8,10 +8,10 @@ TARGET = ws.jar
 
 all: $(TARGET)
 
-$(TARGET): WordServer.java WordServerHandler.java Convertor.java
-	$(JAVA_HOME)/bin/javac WordServer.java WordServerHandler.java Convertor.java -classpath $(CLASSPATH)
+$(TARGET): WordServer.java WordServerHandler.java Convertor.java Result.java
+	$(JAVA_HOME)/bin/javac WordServer.java WordServerHandler.java Convertor.java Result.java -classpath $(CLASSPATH)
 	$(JAVA_HOME)/bin/jar cvfm ws.jar MANIFEST.MF WordServer.class 
-	$(JAVA_HOME)/bin/jar cvf wordserver.jar log4j.properties WordServerHandler.class Convertor.class WordServerHandler\$$Worker.class
+	$(JAVA_HOME)/bin/jar cvf wordserver.jar log4j.properties WordServerHandler.class Convertor.class Result.class WordServerHandler\$$Worker.class
 	cp ws.jar $(LIB_DIR) -f
 	cp wordserver.jar $(LIB_DIR) -f
 
